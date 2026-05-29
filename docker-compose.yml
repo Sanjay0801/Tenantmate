@@ -1,0 +1,21 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16      # Postgres 16 with pgvector pre-installed
+    container_name: tenantmate_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tenantmate
+      POSTGRES_PASSWORD: tenantmate
+      POSTGRES_DB: tenantmate
+    ports:
+      - "5432:5432"                    # Expose on localhost:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Persist data across restarts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tenantmate -d tenantmate"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
