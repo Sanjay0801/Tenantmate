@@ -1,0 +1,28 @@
+# === LLM & RAG ===
+anthropic>=0.25.0          # Anthropic Claude API
+langgraph>=0.1.0           # Agent / chain orchestration
+langchain-core>=0.2.0      # Core abstractions used by langgraph
+
+# === Embeddings (runs locally, no GPU needed) ===
+sentence-transformers>=3.0.0   # Local embedding model (e.g. bge-small-en-v1.5)
+
+# === Vector database ===
+psycopg2-binary>=2.9.9     # Postgres driver
+pgvector>=0.3.0            # pgvector Python client
+
+# === PDF parsing ===
+pdfplumber>=0.11.0         # Extract text from PDF pages
+pypdf>=4.0.0               # Alternative PDF reader / page handling
+
+# === API ===
+fastapi>=0.111.0           # Web framework for /chat endpoint
+uvicorn[standard]>=0.30.0  # ASGI server to run FastAPI
+
+# === Eval (used more in Week 4, but install now) ===
+ragas>=0.1.0               # RAG evaluation framework
+langfuse>=2.0.0            # Observability / tracing
+
+# === Utilities ===
+python-dotenv>=1.0.0       # Loads .env file into environment variables
+pydantic>=2.0.0            # Data validation (FastAPI uses this internally)
+tqdm>=4.66.0               # Progress bars for embedding loops
