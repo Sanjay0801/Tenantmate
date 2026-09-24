@@ -3,7 +3,11 @@ import psycopg2
 import anthropic
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
-from src.reranker import load_reranker,rerank
+#from src.reranker import load_reranker,rerank
+try:
+    from src.reranker import load_reranker, rerank
+except ModuleNotFoundError:
+    from reranker import load_reranker, rerank
  
 #Load environment variables 
 load_dotenv()
