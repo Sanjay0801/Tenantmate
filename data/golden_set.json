@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "question": "Can my landlord enter my home without notice?",
+    "expected_sections": ["55", "57"],
+    "expected_keywords": ["emergency", "notice", "8am", "8pm", "Sunday"]
+  },
+  {
+    "id": 2,
+    "question": "How much bond can a landlord charge?",
+    "expected_sections": ["158"],
+    "expected_keywords": ["bond", "4 weeks", "rent"]
+  },
+  {
+    "id": 3,
+    "question": "When can a tenant terminate a lease early?",
+    "expected_sections": ["97", "98", "110"],
+    "expected_keywords": ["terminate", "notice", "vacate", "breach"]
+  },
+  {
+    "id": 4,
+    "question": "What are my rights if my landlord does not fix repairs?",
+    "expected_sections": ["63", "64"],
+    "expected_keywords": ["repairs", "maintenance", "landlord", "obligation"]
+  },
+  {
+    "id": 5,
+    "question": "Can my landlord increase my rent?",
+    "expected_sections": ["41", "42"],
+    "expected_keywords": ["rent increase", "notice", "60 days"]
+  }
+]

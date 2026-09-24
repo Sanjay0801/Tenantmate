@@ -3,6 +3,7 @@ import psycopg2
 import anthropic
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
+from src.reranker import load_reranker,rerank
  
 #Load environment variables 
 load_dotenv()
@@ -44,10 +45,14 @@ def search_chunks(question: str, conn, model: SentenceTransformer) -> list[dict]
         "notice": ["notice", "notification"],
         "bond": ["bond", "deposit"],
         "rent": ["rent", "payment"],
+        "exit": ["exit", "terminate", "termination", "leave", "vacate", "end"],
+        "lease": ["lease", "agreement", "tenancy"],
+        "break": ["break", "terminate", "termination", "end", "vacate"],
+        "leave": ["leave", "vacate", "terminate", "termination"],
     }
 
     #Build search keywords including synonyms
-    base_keywords = [w for w in question.lower().split() if len(w) > 4]
+    base_keywords = [w for w in question.lower().split() if len(w) >= 4]
     expanded_keywords = set(base_keywords)
     for word in base_keywords:
         if word in synonyms:
@@ -171,6 +176,9 @@ def answer_question(question: str) -> str:
  
     #Load embedding model
     model = SentenceTransformer(EMBEDDING_MODEL)
+
+    # Load reranker model
+    reranker = load_reranker()
  
     #Search for relevant sections
     print(f"Searching for relevant sections...")
@@ -179,6 +187,13 @@ def answer_question(question: str) -> str:
     print(f"Found {len(chunks)} relevant sections:")
     for chunk in chunks:
         print(f"  - Section {chunk['section']}: {chunk['title']}")
+
+    # Step 2: Rerank the results
+    print(f"Reranking {len(chunks)} chunks...")
+    chunks = rerank(question, chunks, reranker)
+    print(f"Top {len(chunks)} chunks after reranking:")
+    for chunk in chunks:
+        print(f"  - Section {chunk['section']}: {chunk['title']} (score: {chunk['rerank_score']:.3f})")
  
     #Build the prompt
     prompt = build_prompt(question, chunks)
@@ -196,7 +211,7 @@ def answer_question(question: str) -> str:
 if __name__ == "__main__":
     # Test questions
     test_questions = [
-        "Can my landlord enter my home without notice?",
+        "when can i exit from lease",
     ]
  
     for question in test_questions:
